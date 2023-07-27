@@ -2,20 +2,20 @@ const { Comment } = require('../models');
 const { BadRequestError } = require('../utils/customErrors');
 const { validateVideoId } = require('../services/videos');
 
-const getCommentsById = async videoId => {
-  await validateVideoId(videoId);
-  const comments = await Comment.find({ videoId });
+const getCommentsByVideoId = async videoID => {
+  await validateVideoId(videoID);
+  const comments = await Comment.find({ videoID });
   return comments;
 };
 
-const createNewCommentInstances = async (videoId, comment, username) => {
-  if (!videoId || !comment || !username) {
+const createNewComment = async ({ videoID, comment, username }) => {
+  if (!videoID || !comment || !username) {
     throw new BadRequestError('Missing required attributes');
   }
 
-  await validateVideoId(videoId);
+  await validateVideoId(videoID);
   const newComment = new Comment({
-    videoId,
+    videoID,
     username,
     comment
   });
@@ -23,6 +23,6 @@ const createNewCommentInstances = async (videoId, comment, username) => {
 };
 
 module.exports = {
-  getCommentsById,
-  createNewCommentInstances
+  getCommentsByVideoId,
+  createNewComment
 };

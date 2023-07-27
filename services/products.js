@@ -2,23 +2,23 @@ const { Product } = require('../models');
 const { validateVideoId } = require('../services/videos');
 const { BadRequestError } = require('../utils/customErrors');
 
-const getProductByVideoId = async videoId => {
-  await validateVideoId(videoId);
-  const products = await Product.find({ videoId });
+const getProductByVideoId = async videoID => {
+  await validateVideoId(videoID);
+  const products = await Product.find({ videoID });
   return products;
 };
 
-const createNewProductInstances = async (title, price, urlProduct, videoId) => {
-  if (!title || !price || !urlProduct || !videoId) {
+const createNewProduct = async ({ title, price, urlProduct, videoID }) => {
+  if (!title || !price || !urlProduct || !videoID) {
     throw new BadRequestError('Missing required attributes');
   }
 
-  await validateVideoId(videoId);
+  await validateVideoId(videoID);
   const product = new Product({
     title,
     price,
     urlProduct,
-    videoId
+    videoID
   });
   await product.save();
 };
@@ -35,5 +35,5 @@ const searchProductsByTitle = async title => {
 module.exports = {
   getProductByVideoId,
   searchProductsByTitle,
-  createNewProductInstances
+  createNewProduct
 };

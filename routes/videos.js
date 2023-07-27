@@ -2,11 +2,11 @@ const videosRouter = require('express').Router();
 const {
   getAllVideos,
   addVideo,
-  searchVideo
+  searchVideos
 } = require('../controllers/videos');
 
 videosRouter.get('/', getAllVideos);
-videosRouter.get('/search', searchVideo);
+videosRouter.get('/search', searchVideos);
 videosRouter.post('/', addVideo);
 
 module.exports = videosRouter;

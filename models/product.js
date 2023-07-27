@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  videoId: {
+  videoID: {
     type: mongoose.Types.ObjectId,
     ref: 'Video'
   }

@@ -1,23 +1,28 @@
 const {
-  getCommentsById,
-  createNewCommentInstances
+  getCommentsByVideoId,
+  createNewComment
 } = require('../services/comments');
 const { errorResponse } = require('../utils/responses');
 
-const getComments = async (req, res, next) => {
+const getComments = async (req, res) => {
   try {
-    const { videoId } = req.body;
-    const comments = await getCommentsById(videoId);
+    const { videoID } = req.body;
+    const comments = await getCommentsByVideoId(videoID);
     res.status(200).json({ status: 'Success', data: comments });
   } catch (err) {
     errorResponse(err, res);
   }
 };
 
-const submitComment = async (req, res, next) => {
+const submitComment = async (req, res) => {
   try {
-    const { videoId, username, comment } = req.body;
-    await createNewCommentInstances(videoId, comment, username);
+    const { videoID, username, comment } = req.body;
+    const requiredAttributes = {
+      videoID,
+      username,
+      comment
+    };
+    await createNewComment({ ...requiredAttributes });
     res.status(201).json({ status: 'Success' });
   } catch (err) {
     errorResponse(err, res);

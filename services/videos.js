@@ -1,24 +1,24 @@
 const { Video } = require('../models');
 const { BadRequestError, NotFoundError } = require('../utils/customErrors');
 
-const allVideos = async () => {
+const findAllVideos = async () => {
   return await Video.find();
 };
 
-const validateVideoId = async videoId => {
-  if (!videoId) {
+const validateVideoId = async videoID => {
+  if (!videoID) {
     throw new BadRequestError('Video ID is required');
   }
 
   try {
-    const video = await Video.findById(videoId);
+    const video = await Video.findById(videoID);
     return video;
   } catch {
     throw new NotFoundError('Video not found');
   }
 };
 
-const createNewVideoInstance = async (title, url) => {
+const createNewVideo = async (title, url) => {
   if (!title || !url) {
     throw new BadRequestError('Missing required attributes');
   }
@@ -30,7 +30,7 @@ const createNewVideoInstance = async (title, url) => {
   await video.save();
 };
 
-const searchVideoByTitle = title => {
+const searchVideosByTitle = title => {
   if (!title) {
     throw new BadRequestError('Title is required');
   }
@@ -41,8 +41,8 @@ const searchVideoByTitle = title => {
 };
 
 module.exports = {
-  allVideos,
+  findAllVideos,
   validateVideoId,
-  createNewVideoInstance,
-  searchVideoByTitle
+  createNewVideo,
+  searchVideosByTitle
 };
