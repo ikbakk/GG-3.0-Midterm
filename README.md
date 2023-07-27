@@ -42,8 +42,8 @@ Then the server will run on port 3000 as default
 [
   {
     "id": <Mongodb ObjectId>,
+    "videoID": <Mongodb ObjectId>
     "comment": string
-    "videoId": <Mongodb ObjectId>
     "username": string
     "timestamp": datetime(iso 8601)
   }
@@ -56,10 +56,10 @@ Then the server will run on port 3000 as default
 [
   {
     "id": <Mongodb ObjectId>,
+    "videoID": <Mongodb ObjectId>
     "title": string
     "urlProduct": string
     "price": number
-    "videoId": <Mongodb ObjectId>
   }
 ]
 ```
@@ -115,20 +115,20 @@ flowchart LR
         direction LR
         subgraph Sc[comments.js]
             direction LR
-            Sc1["`getCommentsById()`"]
-            Sc2["`createNewCommentInstances()`"]
+            Sc1["`getCommentsByvideoID()`"]
+            Sc2["`createNewComment()`"]
         end
         subgraph Sp[products.js]
             direction LR
-            Sp1["`getProductByVideoId()`"]
-            Sp2["`createNewProductInstances()`"]
+            Sp1["`getProductsByvideoID()`"]
+            Sp2["`createNewProduct()`"]
             Sp3["`searchProductsByTitle()`"]
         end
         subgraph Sv[videos.js]
             direction LR
-            Sv1["`allVideos()`"]
-            Sv2["`createNewVideoInstance()`"]
-            Sv3["`searchVideoByTitle()`"]
+            Sv1["`findAllVideos()`"]
+            Sv2["`createNewVideo()`"]
+            Sv3["`searchVideosByTitle()`"]
         end
     end
     subgraph Models
@@ -178,8 +178,8 @@ flowchart LR
   ```
   {
     id: string,
+    videoID: string,
     comment: string,
-    videoId: string,
     username: string,
     timestamp: datetime(iso 8601)
   }
@@ -196,7 +196,7 @@ Returns all comments for particular video
   - **Body:**
     ```
     {
-      videoId: string
+      videoID: string
     }
     ```
 
@@ -243,7 +243,7 @@ Adds a new comment to a video
   - **Body:**
     ```
     {
-      videoId: string,
+      videoID: string,
       comment: string,
       username: string
     }
@@ -283,10 +283,10 @@ Adds a new comment to a video
   ```
   {
     id: string,
+    videoID: string,
     title: string,
     urlProduct: string,
-    price: number,
-    videoId: string
+    price: number
   }
   ```
 
@@ -301,7 +301,7 @@ Returns all products for particular video
   - **Body:**
     ```
     {
-      videoId: string
+      videoID: string
     }
     ```
 
@@ -382,7 +382,7 @@ Adds a new product to a video
   - **Body:**
     ```
     {
-      videoId: string,
+      videoID: string,
       title: string,
       urlProduct: string,
       price: number
